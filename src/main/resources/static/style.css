@@ -1,3 +1,15 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: Verdana;
+    color: #D7DADC;
+    margin: 0;
+    background: #030303;
+    font-size: 12.5px;
+}
 .glyphicon {
     font-size: 10px;
     color: grey;
@@ -11,17 +23,20 @@
     background: #1A1A1B;
     border: #343536;
 }
-html,
-body {
-    height: 100%;
+
+.navbar-header img{
+    display: inline;
+    vertical-align: top;
+    float: none;
 }
 
-body {
-    font-family: Verdana;
-    color: #D7DADC;
-    margin: 0;
-    background: #030303;
-    font-size: 12.5px;
+#title {
+    padding-top: 10px;
+    font-size: 11px;
+}
+
+.navbar-inverse .navbar-form {
+    padding-top: 5px;
 }
 
 a {
@@ -183,6 +198,10 @@ label {
     min-width: 400px;
 }
 
-.dropdown-checkbox{
-    width: 250px;
+#copied_text{
+    width: 200px;
+}
+
+@media {
+    min-width=100px;
 }
