@@ -14,12 +14,12 @@ A reddit-like webapp.
 -Bootstrap frontend  
 -Custom error page  
 -Saving posts  
+-Post sharing(Social/Copy URL to clipboard)  
 
 ### In progress  
 -JWT token, REST API  
 
 ### Features to be added  
 -'Also search in comments' radio for search  
--Post sharing  
 -Replies/comment threads  
 -Deleting posts  
