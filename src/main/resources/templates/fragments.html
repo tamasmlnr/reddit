@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:https="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css"/>
+    <meta charset="UTF-8">
+    <title>Fragments</title>
+
+</head>
+<body>
+
+<header th:fragment="header">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <ul class="nav navbar-nav">
+                    <li><a href="/"><img src="/img/reddit.png" width="25 px">RedditLight</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+
+                <form action="#" th:action="@{/search}" class="navbar-form navbar-left">
+                    <input type="text" name="term" class="form-control input-sm" placeholder="Search posts">
+
+                    <div class="dropdown-checkbox form-group">
+                        <button type="submit" class="btn btn-sm"><span class="glyphicon glyphicon-search"></span>
+                        </button>
+                        <ul>
+                            <li><label><input type="checkbox" name="title" checked>Post titles</label></li>
+                            <li><label><input type="checkbox" name="content">Post content</label></li>
+                            <li><label><input type="checkbox" name="comment">Comments</label></li>
+                        </ul>
+                    </div>
+
+
+                </form>
+
+
+                <span th:if="${currentUser}"><ul class="nav navbar-nav">
+                    <li><a th:href="@{'/postsBy/'+${currentUser.username}}">My posts </a></li>
+                    <li><a href="/saved">Saved posts</a></li>
+                    <li><a href="/newpost">New post</a></li>
+                    <li><a href="/messages">Messages
+                        <span th:if="${unreadMessages!=0}">(<span class="blue"
+                                                                  th:text="${unreadMessages}+' new'"></span>)</a></li>
+                </ul></span>
+                <span th:if="${currentUser}">
+                   <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/logout">[[${currentUser.username}]] | Log out</a>
+                    </li>
+                  </ul>
+                </span>
+                <span th:unless="${currentUser}">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/users/register">Register </a></li>
+                <li><a href="/login"> Log in </a></li></ul></span>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+<div class="post" th:fragment="showPost(post, currentUser, hostname)">
+    <aside class="left-sidebar">
+        <a th:href="'/upvote/'+${post.id}">
+            <span th:if="${currentUser!=null} AND ${currentUser.getUpvotedPosts().contains(post)}"><span
+                    class="glyphicon glyphicon-arrow-up" style="color:deepskyblue"></span></span>
+            <span th:unless="${currentUser!=null} AND ${currentUser.getUpvotedPosts().contains(post)}">
+                        <span class="glyphicon glyphicon-arrow-up"></span></span>
+        </a>
+        <br>
+        [[${post.score}]]<br>
+        <a th:href="'/downvote/'+${post.id}">
+            <span th:if="${currentUser!=null} AND ${currentUser.getDownvotedPosts().contains(post)}"><span
+                    class="glyphicon glyphicon-arrow-down" style="color:deepskyblue"></span></span>
+            <span th:unless="${currentUser!=null} AND ${currentUser.getDownvotedPosts().contains(post)}">
+                        <span class="glyphicon glyphicon-arrow-down"></span></span>
+        </a>
+    </aside>
+    <div><h5><a th:href="'/viewpost/'+${post.id}" th:text="${post.title}"></h5></a></div>
+    <div><a th:href="@{'/postsByDate/'+${#temporals.format(post.date, 'YYYY-MM-dd')}}"><span
+            th:text="${#temporals.format(post.date, 'YYYY MMM dd, HH:mm')}"></span></a>
+        by <a th:href="@{'/postsBy/'+${post.user}}">[[${post.user}]]</a></div>
+    <div class="small"><a th:href="'/viewpost/'+${post.id}+'#comments'"
+                          th:text="${post.commentsSize()}+' comments'"></a>&nbsp
+        <a th:if="${currentUser!=null} AND ${!currentUser.savedPosts.contains(post)}" th:href="'/save/'+${post.id}"><i
+                class="glyphicon glyphicon-bookmark"></i>
+            Save </a>
+        <a th:if="${currentUser!=null} AND ${currentUser.savedPosts.contains(post)}" th:href="'/unsave/'+${post.id}"><i
+                class="glyphicon glyphicon-bookmark highlight"></i>
+            Unsave </a>
+
+   &nbsp
+            <div class="dropdown-checkbox form-group">
+            <i class="glyphicon glyphicon-share-alt"></i><a>Share</a></button>
+            <ul>
+                    <li><label><div class="input-group">
+                        <input id="copied_text" type='text' th:value="${hostname}+'/viewpost/'+${post.id}" class="form-control input-sm"/>
+                        <span class="input-group-btn">
+        <button class="btn btn-sm" id="copier_btn" type="button" value="Copy URL">
+         <i class='fa fa-copy'></i> Copy URL
+        </button>
+      </span>
+                    </div></label></li>
+                    <li><label>                        <a class="share-btn"
+                                                          th:href="'https://www.facebook.com/sharer/sharer.php?u='+${hostname}+'/viewpost/'+${post.id}"
+                                                          title="Share on Twitter">
+                        <span class="share-btn-icon"></span>
+                        <span class="share-btn-text-sr">Share on Facebook</span>
+                    </a></label></li>
+                    <li><label>
+                        <a class="share-btn"
+                           th:href="'https://twitter.com/share?url='+${hostname}+'/viewpost/'+${post.id}"
+                           title="Share on Twitter">
+                            <span class="share-btn-icon"></span>
+                            <span class="share-btn-text-sr">Twitter</span>
+                        </a>
+                    </label></li>
+                </ul>
+            </div>
+        </span>
+    </div>
+</div>
+
+
+<div th:fragment="showComment(comment)">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p class="small"><span th:text="${#temporals.format(comment.date, 'YYYY MMM dd, HH:mm')}"></span> by <a
+                    th:href="@{'/postsBy/'+${comment.user}}" class="blue">[[${comment.user}]] </a>
+                <a th:href="@{'/message/'+${comment.user}}" class="glyphicon glyphicon-envelope"></a>
+            </p>
+            [[${comment.content}]]
+            <br>
+            <button data-toggle="collapse" th:attr="data-target=${'#'+comment.id}" class="btn btn-dark right">Reply
+            </button>
+            <div th:id="${comment.id}" class="collapse">
+                <form action="#" th:action="@{'/reply/'+${post.id}+'/'+${comment.id}}" th:object="${newComment}"
+                      method="post">
+        <textarea class="form-control" name="content" placeholder="Enter your comment here" rows="5"
+                  required/></textarea>
+                    <div class="col-xs-2">
+                        <input type="submit" class="form-control" value="Submit"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div th:each="reply: ${comment.replies}" th:unless="${comment.replies==null}">
+        <div class="indent">
+            <div th:replace="fragments :: showComment(
+        comment=${reply})">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script>
+    var copyBtn = document.querySelector('#copier_btn');
+    copyBtn.addEventListener('click', function () {
+        var copiedObj = document.querySelector('#copied_text');
+        // select the contents
+        copiedObj.select();
+
+        document.execCommand('copy'); // or 'cut'
+    }, false);
+</script>
+<script>
+    (function(){
+
+        var shareButtons = document.querySelectorAll(".share-btn");
+
+        if (shareButtons) {
+            [].forEach.call(shareButtons, function(button) {
+                button.addEventListener("click", function(event) {
+                    var width = 650,
+                        height = 450;
+
+                    event.preventDefault();
+
+                    window.open(this.href, 'Share Dialog', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,width='+width+',height='+height+',top='+(screen.height/2-height/2)+',left='+(screen.width/2-width/2));
+                });
+            });
+        }
+
+    })();
+</script>
+</body>
+</html>

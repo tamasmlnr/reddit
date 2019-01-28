@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<link href="https://fonts.googleapis.com/css?family=Heebo:800" rel="stylesheet">
+<link rel='shortcut icon' type='image/x-icon' href='/img/favicon.png' />
+<head>
+
+</head>
+<body>
+<div style="text-align:center; font-family: 'Heebo', sans-serif;">
+
+    <img src="/img/reddit_error.png" class="img-fluid">
+    <br>
+    <span style="font-size: 100px;" th:text="${status}"/></span>
+    <span style="font-size: 100px;"  th:text="${error}"/></span>
+    <span style="font-size: 100px;"  th:text="${message}"/></span>
+    <br>
+    <a href="/" style="color:orange">Back to safety <<</a>
+</div>
+</body>
+</html>
