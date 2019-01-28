@@ -107,15 +107,15 @@
    &nbsp
             <div class="dropdown-checkbox form-group">
             <i class="glyphicon glyphicon-share-alt"></i><a>Share</a></button>
-            <ul>
-                    <li><label><div class="input-group">
+            <ul class="social">
+                    <li><div class="input-group">
                         <input id="copied_text" type='text' th:value="${hostname}+'/viewpost/'+${post.id}" class="form-control input-sm"/>
                         <span class="input-group-btn">
         <button class="btn btn-sm" id="copier_btn" type="button" value="Copy URL">
          <i class='fa fa-copy'></i> Copy URL
         </button>
       </span>
-                    </div></label></li>
+                    </div></li>
                     <li><label>                        <a class="share-btn"
                                                           th:href="'https://www.facebook.com/sharer/sharer.php?u='+${hostname}+'/viewpost/'+${post.id}"
                                                           title="Share on Facebook">

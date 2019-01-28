@@ -159,7 +159,7 @@ label {
 
 .dropdown-checkbox ul li{
     font-size: 12px;
-    padding: 10px;
+    padding: 5px;
     border-bottom: 1px solid #1A1A1B;
     margin: 0px;
 }
@@ -186,4 +186,3 @@ label {
 .dropdown-checkbox{
     width: 250px;
 }
-
