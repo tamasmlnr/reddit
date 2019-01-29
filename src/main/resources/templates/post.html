@@ -20,6 +20,7 @@
             <p class="small"><span th:text="${#temporals.format(post.date, 'YYYY MMM dd, HH:mm')}"></span> by <a
                     th:href="@{'/postsBy/'+${post.user}}" class="blue">[[${post.user}]]</a></p>
             <h2 class="panel-title">[[${post.title}]]</h2>
+            <p></p>
             <p data-th-utext="${#strings.replace(#strings.escapeXml(post.content),'&#10;','&lt;br&gt;')}"></p>
         </div>
     </div>

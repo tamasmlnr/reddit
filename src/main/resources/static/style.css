@@ -201,7 +201,3 @@ label {
 #copied_text{
     width: 200px;
 }
-
-@media {
-    min-width=100px;
-}

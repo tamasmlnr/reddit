@@ -28,4 +28,5 @@ public interface PostService {
   void savePostsFromDTO(PostDTO postDTO, ApplicationUser user);
   void setDate(Post post);
   ApplicationUser setUser(Post post, HttpServletRequest req);
+  boolean deletePost(Long id, HttpServletRequest req);
 }

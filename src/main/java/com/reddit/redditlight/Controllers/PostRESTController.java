@@ -57,4 +57,15 @@ public class PostRESTController {
     }
   }
 
+  @DeleteMapping("/delete/{id}")
+  private ResponseEntity<?> deletePost(@PathVariable(value="id") Long id, HttpServletRequest req){
+    if (postService.deletePost(id,req)){
+      return ResponseEntity.status(HttpStatus.OK)
+          .body("Post successfully deleted!");
+    }
+    else return ResponseEntity.status(HttpStatus.FORBIDDEN)
+        .body("Could not delete post!");
+  }
+
+
 }
