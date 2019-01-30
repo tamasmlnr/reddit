@@ -19,7 +19,6 @@ A reddit-like webapp.
 -REST API with JWT tokens
 
 ### In progress  
-
+-Subreddits
 
 ### Features to be added  
--Subreddits
