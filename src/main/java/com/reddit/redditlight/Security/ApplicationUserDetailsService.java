@@ -35,8 +35,6 @@ public class ApplicationUserDetailsService implements UserDetailsService {
       }
 
       List< GrantedAuthority > authorities = Arrays.asList(new SimpleGrantedAuthority("ROLE.ADMIN"));
-      System.out.println(username);
-      System.out.println(user.isVerified());
 
       return new org.springframework.security.core.userdetails.User(
           user.getUsername(),
