@@ -15,11 +15,11 @@ A reddit-like webapp.
 -Custom error page  
 -Saving posts  
 -Post sharing(Social/Copy URL to clipboard)  
+-Replies/comment threads  
+-REST API with JWT tokens
 
 ### In progress  
--JWT token, REST API  
+
 
 ### Features to be added  
--'Also search in comments' radio for search  
--Replies/comment threads  
--Deleting posts  
+-Subreddits
