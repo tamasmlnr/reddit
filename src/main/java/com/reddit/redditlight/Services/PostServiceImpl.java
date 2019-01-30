@@ -188,7 +188,7 @@ public class PostServiceImpl implements PostService {
     if (req!=null&&id!=null) {
       String username = jwtUtil.getUserFromRequest(req);
       Post post = postRepository.findById(id).orElse(null);
-      if (post!=null&&post.getUser().getUsername()==username){
+      if (post!=null&&post.getUser().getUsername().equals(username)){
         postRepository.delete(post);
         return true;
       }
