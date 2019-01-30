@@ -184,6 +184,20 @@ public class PostServiceImpl implements PostService {
   }
 
   @Override
+  public boolean deletePost(Long id, HttpServletRequest req) {
+    if (req!=null&&id!=null) {
+      String username = jwtUtil.getUserFromRequest(req);
+      Post post = postRepository.findById(id).orElse(null);
+      if (post!=null&&post.getUser().getUsername()==username){
+        postRepository.delete(post);
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  @Override
   public List<Post> findPostsByUser(String username) {
     ApplicationUser user = applicationUserService.findByUsername(username);
     return postRepository.findByUserId(user.getId());
